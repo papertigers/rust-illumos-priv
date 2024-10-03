@@ -38,6 +38,8 @@ use std::os::raw::c_char;
 mod ffi;
 mod privileges;
 
+use ffi::priv_set_to_str;
+
 // Have to use "crate::" here due to a bug in rust 1.31 which is used by jenkins
 pub use crate::privileges::Privilege;
 
@@ -86,6 +88,18 @@ pub enum PrivOp {
 /// for a process. When `PrivSet` is dropped, its backing memory is freed.
 pub struct PrivSet {
     inner: *mut ffi::OpaquePrivSet,
+}
+
+impl std::fmt::Debug for PrivSet {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let outp = unsafe { priv_set_to_str(self.inner, ',' as i8, 0) };
+        let cstr = unsafe { CStr::from_ptr(outp) };
+        let str = cstr.to_str().unwrap();
+        f.write_str(&str)?;
+        unsafe { libc::free(outp.cast()) };
+
+        Ok(())
+    }
 }
 
 impl PrivSet {

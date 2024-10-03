@@ -6,7 +6,7 @@ readme = "README.md"
 authors = ["Mike Zeller <mike@mikezeller.net>"]
 repository = "https://github.com/TritonDataCenter/rust-illumos-priv"
 keywords = ["illumos", "solaris", "security", "privileges"]
-edition = "2018"
+edition = "2021"
 license = "MPL-2.0"
 categories = [
     "os",
@@ -15,3 +15,4 @@ categories = [
 exclude = ["deps/*"]
 
 [dependencies]
+libc = "0.2.159"

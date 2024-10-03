@@ -42,4 +42,6 @@ extern "C" {
     /// memory for set is allocated with priv_allocset() and freed with priv_freeset(). Both
     /// functions are documented on the priv_addset(3C) manual page.
     pub fn getppriv(which: *const c_char, set: *mut OpaquePrivSet) -> c_int;
+
+    pub fn priv_set_to_str(set: *const OpaquePrivSet, sep: c_char, flag: u32) -> *mut c_char;
 }
